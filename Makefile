@@ -6,6 +6,7 @@ LIBS:=-lm
 VPATH:=
 
 BIN:=build
+RENDER_PATH:=image.ppm
 
 # Get source and object
 SRCS := $(shell find . -type f -name '*.cpp')
@@ -16,7 +17,7 @@ main: $(OBJS)
 	$(CC) $(CFLAGS) -o $(BIN)/$@ $^ $(LIBS)
 
 run:
-	./$(BIN)/main
+	./$(BIN)/main > $(RENDER_PATH) && feh --force-aliasing $(RENDER_PATH)
 
 # Convert the source in object, but before all, run `$(BIN)` aka mkdir
 $(BIN)/%.o: %.cpp
