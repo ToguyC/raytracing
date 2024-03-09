@@ -4,6 +4,7 @@
 
 #include "../color.hpp"
 #include "../interfaces/hittable.hpp"
+#include "../material.hpp"
 
 #include <iostream>
 
