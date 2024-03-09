@@ -13,14 +13,16 @@ class camera {
 
   private:
     void initialize();
-    color ray_color(const ray &r, const hittable &world) const;
+    color ray_color(const ray &r, int depth, const hittable &world) const;
     ray get_ray(int i, int j) const;
     vec3 pixel_sample_square() const;
 
   public:
-    double aspect_ratio   = 16.0 / 9.0;
-    int image_width       = 400;
-    int samples_per_pixel = 10;
+    double aspect_ratio            = 16.0 / 9.0;
+    int image_width                = 400;
+    int samples_per_pixel          = 10;
+    int max_depth                  = 10;
+    bool use_lambertian_reflection = true;
 
   private:
     int image_height;   // Rendered image height
