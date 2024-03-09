@@ -1,6 +1,6 @@
 #include "sphere.hpp"
 
-bool sphere::hit(const ray &r, double ray_tmin, double ray_tmax, hit_record &rec) const {
+bool sphere::hit(const ray &r, interval ray_t, hit_record &rec) const {
     vec3 oc = r.origin() - center;
     double a = r.direction().length_squared();
     double half_b = dot(oc, r.direction());
@@ -16,10 +16,10 @@ bool sphere::hit(const ray &r, double ray_tmin, double ray_tmax, hit_record &rec
     // find the nearest root that lies in the acceptable range
     double root = (-half_b - sqrtd) / a;
 
-    if (root <= ray_tmin || root > ray_tmax) {
+    if (!ray_t.surrounds(root)) {
         root = (-half_b + sqrtd) / a;
 
-        if (root <= ray_tmin || root > ray_tmax)
+        if (!ray_t.surrounds(root))
             return false;
     }
 

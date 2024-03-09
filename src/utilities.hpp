@@ -18,5 +18,6 @@ inline double degrees_to_radians(double degrees) { return degrees * pi / 180.0; 
 
 // common headers
 
+#include "interval.hpp"
 #include "ray.hpp"
 #include "vec3.hpp"
