@@ -1,4 +1,4 @@
-#include "src/rtweekend.hpp"
+#include "src/utilities.hpp"
 
 #include "src/color.hpp"
 #include "src/interfaces/hittable.hpp"
