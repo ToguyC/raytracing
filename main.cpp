@@ -7,6 +7,8 @@
 #include "src/material/metal.hpp"
 #include "src/objects/sphere/sphere.hpp"
 
+#include "lib/lodepng/lodepng.hpp"
+
 int main() {
     hittable_list world;
 
@@ -28,5 +30,15 @@ int main() {
     cam.max_depth                 = 50;
     cam.use_lambertian_reflection = true;
 
-    cam.render(world);
+    auto image = cam.render(world, FILE_PNG);
+
+    std::string output_path = "image.png";
+    auto status = lodepng::encode(output_path, image, static_cast<unsigned>(cam.image_width),
+                                  static_cast<unsigned>(cam.image_height));
+    if (status != 0) {
+        std::cerr << "Error saving PNG file. " << lodepng_error_text(status) << std::endl;
+        return EXIT_FAILURE;
+    } else {
+        std::cerr << "Image saved in " << output_path << std::endl;
+    }
 }

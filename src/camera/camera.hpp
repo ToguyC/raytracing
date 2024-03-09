@@ -7,10 +7,13 @@
 #include "../material/material.hpp"
 
 #include <iostream>
+#include <vector>
+
+enum OutputFileType { FILE_PPM, FILE_PNG };
 
 class camera {
   public:
-    void render(const hittable &world);
+    std::vector<unsigned char> render(const hittable &world, OutputFileType type);
 
   private:
     void initialize();
@@ -24,9 +27,9 @@ class camera {
     int samples_per_pixel          = 10;
     int max_depth                  = 10;
     bool use_lambertian_reflection = true;
+    int image_height;
 
   private:
-    int image_height;   // Rendered image height
     point3 center;      // Camera center
     point3 pixel00_loc; // Location of pixel 0, 0
     vec3 pixel_delta_u; // Offset to pixel to the right

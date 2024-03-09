@@ -17,7 +17,7 @@ main: $(OBJS)
 	$(CC) $(CFLAGS) -o $(BIN)/$@ $^ $(LIBS)
 
 run:
-	./$(BIN)/main > $(RENDER_PATH) && feh --force-aliasing $(RENDER_PATH)
+	./$(BIN)/main && feh --force-aliasing $(RENDER_PATH)
 
 # Convert the source in object, but before all, run `$(BIN)` aka mkdir
 $(BIN)/%.o: %.cpp

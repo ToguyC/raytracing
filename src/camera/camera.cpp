@@ -25,10 +25,10 @@ void camera::initialize() {
     pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
 }
 
-void camera::render(const hittable &world) {
+std::vector<unsigned char> camera::render(const hittable &world, OutputFileType type) {
     initialize();
 
-    std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+    std::vector<unsigned char> image;
 
     for (int j = 0; j < image_height; j++) {
         std::clog << "\rScanlines remainging: " << (image_height - j) << ' ' << std::flush;
@@ -41,11 +41,20 @@ void camera::render(const hittable &world) {
                 pixel_color += ray_color(r, max_depth, world);
             }
 
-            write_color(std::cout, pixel_color, samples_per_pixel);
+            if (type == FILE_PPM) {
+                write_color_stream(std::cout, pixel_color, samples_per_pixel);
+            } else if (type == FILE_PNG) {
+                write_color(image, pixel_color, samples_per_pixel);
+            } else {
+                std::cerr << "Unkonwn file type." << std::endl;
+                exit(1);
+            }
         }
     }
 
     std::clog << "\rDone.                  \n";
+
+    return image;
 }
 
 color camera::ray_color(const ray &r, int depth, const hittable &world) const {
