@@ -3,7 +3,8 @@
 #include "src/camera/camera.hpp"
 #include "src/color.hpp"
 #include "src/interfaces/hittable_list.hpp"
-#include "src/material.hpp"
+#include "src/material/lambertian.hpp"
+#include "src/material/metal.hpp"
 #include "src/objects/sphere/sphere.hpp"
 
 int main() {
