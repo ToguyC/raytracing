@@ -1,14 +1,14 @@
 # see https://yuukidach.github.io/2019/08/05/makefile-learning/
 # Variable setup
 CC:=g++
-CFLAGS:=
+CFLAGS:=-Wall -Wextra -g
 LIBS:=-lm
 VPATH:=
 
 BIN:=build
 
 # Get source and object
-SRCS = $(wildcard *.cpp */*.cpp)
+SRCS := $(shell find . -type f -name '*.cpp')
 OBJS = $(addprefix $(BIN)/, $(SRCS:.cpp=.o))
 
 # Create the target

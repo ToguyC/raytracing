@@ -1,29 +1,16 @@
+#include "src/rtweekend.hpp"
+
 #include "src/color.hpp"
-#include "src/ray.hpp"
-#include "src/vec3.hpp"
+#include "src/interfaces/hittable.hpp"
+#include "src/interfaces/hittable_list.hpp"
+#include "src/objects/sphere/sphere.hpp"
 #include <iostream>
 
-double hit_sphere(const point3 &center, double radius, const ray &r) {
-    vec3 oc = r.origin() - center;
-    double a = r.direction().length_squared();
-    double half_b = dot(oc, r.direction());
-    double c = oc.length_squared() - radius * radius;
-    double discriminant = half_b * half_b - a * c;
+color ray_color(const ray &r, const hittable &world) {
+    hit_record rec;
 
-    if (discriminant < 0) {
-        return -1.0;
-    }
-
-    return (-half_b - sqrt(discriminant)) / a;
-}
-
-color ray_color(const ray &r) {
-    double t = hit_sphere(point3(0, 0, -1), 0.5, r);
-
-    if (t > 0.0) {
-        vec3 N = unit_vector(r.at(t) - vec3(0, 0, -1));
-
-        return 0.5 * color(N.x() + 1, N.y() + 1, N.z() + 1);
+    if (world.hit(r, 0, infinity, rec)) {
+        return 0.5 * (rec.normal + color(1, 1, 1));
     }
 
     vec3 unit_direction = unit_vector(r.direction());
@@ -42,6 +29,12 @@ int main() {
     // calculate the image height, and ensure that it's at least 1
     int image_height = static_cast<int>(image_width / aspect_ratio);
     image_height = (image_height < 1) ? 1 : image_height;
+
+    // world
+    hittable_list world;
+
+    world.add(make_shared<sphere>(point3(0, 0, -1), 0.5));
+    world.add(make_shared<sphere>(point3(0, -100.5, -1), 100));
 
     // camera
     double focal_length = 1.0;
@@ -75,7 +68,7 @@ int main() {
 
             ray r(camera_center, ray_direction);
 
-            color pixel = ray_color(r);
+            color pixel = ray_color(r, world);
             write_color(std::cout, pixel);
         }
     }
