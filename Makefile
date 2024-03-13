@@ -6,7 +6,6 @@ LIBS:=-lm
 VPATH:=
 
 BIN:=build
-RENDER_PATH:=image.ppm
 
 # Get source and object
 SRCS := $(shell find . -type f -name '*.cpp')
